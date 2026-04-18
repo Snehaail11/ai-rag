@@ -64,10 +64,5 @@ A Next.js-based template for building AI-powered Retrieval-Augmented Generation 
 - `lib/`: Utility functions for embeddings, LLM, prompts, retrieval, and Supabase integration
 - `public/`: Static assets
 
-## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
 
-## License
-
-This project is licensed under the MIT License.
