@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI RAG Template
 
-## Getting Started
+A Next.js-based template for building AI-powered Retrieval-Augmented Generation (RAG) applications. This project provides a foundation for creating chatbots or query systems that combine document retrieval with large language models to generate contextually relevant responses.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Query Interface**: Interactive forms for submitting queries and viewing responses
+- **Document Retrieval**: Integration with Supabase for storing and retrieving documents
+- **Embeddings**: Support for generating and using embeddings for semantic search
+- **LLM Integration**: Configurable support for OpenAI and Hugging Face models
+- **Logging**: API endpoint for logging interactions
+- **Modern UI**: Built with React, TypeScript, and Tailwind CSS
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Frontend**: Next.js 16, React 19, TypeScript
+- **Styling**: Tailwind CSS
+- **Backend**: Next.js API routes
+- **Database**: Supabase
+- **AI Services**: OpenAI, Hugging Face
+- **Development**: ESLint, PostCSS
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Installation
 
-## Learn More
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd ai-rag-template
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. Set up environment variables:
+   Create a `.env.local` file in the root directory with the following variables:
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY=your_supabase_publishable_key
+   HF_API_KEY=your_hugging_face_api_key
+   ```
+   Note: OpenAI API key can be added if using OpenAI models.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. Configure your Supabase database with appropriate tables for documents and logs.
 
-## Deploy on Vercel
+## Usage
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+3. Use the query form to submit questions. The system will retrieve relevant documents from Supabase and generate responses using the configured LLM.
+
+## Project Structure
+
+- `app/`: Next.js app directory with pages and API routes
+  - `api/logs/`: Endpoint for logging interactions
+  - `api/query/`: Endpoint for processing queries
+- `components/`: React components (LogForm, QueryForm, ResponseBox)
+- `lib/`: Utility functions for embeddings, LLM, prompts, retrieval, and Supabase integration
+- `public/`: Static assets
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License.
