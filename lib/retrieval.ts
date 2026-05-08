@@ -1,10 +1,20 @@
 import { supabase } from "./supabase"
 
 export async function retrieveSimilarLogs(queryEmbedding: number[]) {
-  const { data } = await supabase.rpc("match_logs", {
-    query_embedding: queryEmbedding,
-    match_count: 5,
-  })
+  try {
+    const { data, error } = await supabase.rpc("match_logs", {
+      query_embedding: queryEmbedding,
+      match_count: 10,
+    })
 
-  return data
+    if (error) {
+      console.error("Retrieval error:", error)
+      return []
+    }
+
+    return data || []
+  } catch (error) {
+    console.error("Retrieval exception:", error)
+    return []
+  }
 }

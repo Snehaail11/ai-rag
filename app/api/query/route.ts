@@ -4,17 +4,41 @@ import { buildPrompt } from "../../../lib/prompts"
 import { generateCompletion } from "../../../lib/llm"
 
 export async function POST(req: Request) {
-  const { question } = await req.json()
+  try {
+    const { question, history = [] } = await req.json()
 
-  const queryEmbedding = await generateEmbedding(question)
+    if (!question) {
+      return Response.json({ error: "Question is required" }, { status: 400 })
+    }
 
-  const results = await retrieveSimilarLogs(queryEmbedding)
+    const queryEmbedding = await generateEmbedding(question)
+    
+    if (!queryEmbedding || !Array.isArray(queryEmbedding)) {
+      return Response.json({ error: "Failed to generate query embedding" }, { status: 500 })
+    }
 
-  const context = results?.map((r: any) => r.text).join("\n") || ""
+    const results = await retrieveSimilarLogs(queryEmbedding)
 
-  const prompt = buildPrompt(context, question)
+    const sources = results?.map((r: { text: string }) => r.text) || []
+    const context = sources.join("\n\n") || ""
 
-  const answer = await generateCompletion(prompt)
+    console.log("Retrieved sources:", sources.length)
+    console.log("Context:", context.substring(0, 200))
 
-  return Response.json({ answer })
+    const prompt = buildPrompt(context, question, history)
+
+    const answer = await generateCompletion(prompt)
+
+    return Response.json({ 
+      answer,
+      sources: sources.slice(0, 3),
+      contextFound: sources.length > 0
+    })
+  } catch (error) {
+    console.error("Query API Error:", error)
+    return Response.json({ 
+      answer: "I encountered an error while processing your request. Please make sure the backend services are properly configured.",
+      error: "Server error"
+    }, { status: 500 })
+  }
 }

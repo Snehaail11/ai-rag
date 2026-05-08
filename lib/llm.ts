@@ -18,13 +18,19 @@ export async function generateCompletion(prompt: string) {
               content: prompt,
             },
           ],
-          max_tokens: 200,
+          max_tokens: 500,
+          temperature: 0.3,
         }),
       }
     )
 
     const data = await response.json()
-    console.log("HF RESPONSE:", data)
+    console.log("HF RESPONSE:", JSON.stringify(data, null, 2))
+
+    if (data.error) {
+      console.error("HF Error:", data.error)
+      return `Error: ${data.error.message || "Unknown error from AI service"}`
+    }
 
     return data.choices?.[0]?.message?.content || "No response."
   } catch (error) {
